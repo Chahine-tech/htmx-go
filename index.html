@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=<device-width>, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/htmx.org@1.9.2" integrity="sha384-L6OqL9pRWyyFU3+/bjdSri+iIphTN/bvYyM37tICVyOJkWZLpP2vGn6VUEXgzg6h" crossorigin="anonymous"></script>
+    <title>Document</title>
+</head>
+
+<body class="p-8">
+    <div class="flex flex-wrap  mt-4 g-4">
+        <div class="w-2/3">
+            <h1 class="mb-4 text-4xl">Film List</h1>
+        
+            <ul class="flex flex-col pl-0 mb-0 border rounded border-gray-300 fs-5 me-5" id="film-list">
+                {{ range .Films }}
+                {{ block "film-list-element" .}}
+                    <li class="relative block py-3 px-6 -mb-px border border-r-0 border-l-0 border-gray-300 no-underline bg-blue-600 text-white">{{ .Title }} - {{ .Director }}</li>
+                {{ end }}
+                {{ end }}
+            </ul>
+        </div>
+
+        <div class="w-1/3">
+            <h1 class="mb-4 text-4xl">Add Film</h1>
+
+            <form hx-post="/add-film/" hx-target="#film-list" hx-swap="beforeend" hx-indicator="#spinner">
+                <div class="mb-2">
+                    <label for="film-title">Title</label>
+                    <input type="text" name="title" id="film-title" class="block appearance-none w-full py-1 px-2 mb-1 text-base leading-normal bg-white text-gray-800 border border-gray-200 rounded" />
+                </div>
+                <div class="mb-3">
+                    <label for="film-director">Director</label>
+                    <input type="text" name="director" id="film-director" class="block appearance-none w-full py-1 px-2 mb-1 text-base leading-normal bg-white text-gray-800 border border-gray-200 rounded" />
+                </div>
+
+                <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2">
+                    <span class="spinner-border spinner-border-sm htmx-indicator" id="spinner" role="status" aria-hidden="true"></span>
+                    Submit
+                </button>
+            </form>
+        </div>
+
+    </div>
+</body>
+
+</html>
